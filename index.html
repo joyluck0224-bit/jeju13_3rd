@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네덜란드 낭만 여행 플래너</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@600&display=swap');
+        
+        :root {
+            --bg-main: #fcfcfc;
+            --accent-sage: #84a59d;
+            --accent-sand: #f5ebe0;
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --border-color: #f1f2f6;
+        }
+
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .glass-card { 
+            background: white; 
+            border-radius: 1.25rem; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); 
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .accordion-content.active {
+            max-height: 3000px;
+            opacity: 1;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-line {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            bottom: -0.5rem;
+            width: 1px;
+            background-color: #eee;
+        }
+        .timeline-line:last-child::before { display: none; }
+
+        .time-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-sage);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .info-tag {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .tag-eat { background-color: #fff4e6; color: #d9480f; }
+        .tag-shop { background-color: #f3f0ff; color: #5f3dc4; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #dcdde1; border-radius: 10px; }
+    </style>
+</head>
+<body class="pb-24">
+
+    <div class="max-w-xl mx-auto px-6 py-12">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <span class="text-xs font-bold tracking-[0.3em] text-slate-300 uppercase mb-3 block">Travel Itinerary</span>
+            <h1 class="text-4xl serif-font text-slate-800 mb-2">Netherlands <span class="italic text-slate-400">&</span> Belgium</h1>
+            <p class="text-[13px] text-slate-400 font-light tracking-wide">MAY 22 - MAY 30, 2025</p>
+        </header>
+
+        <!-- Essentials Section -->
+        <div class="glass-card p-7 mb-10">
+            <h2 class="text-sm font-bold text-slate-800 mb-6 tracking-wider uppercase flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-sage-500 rounded-full" style="background-color: var(--accent-sage);"></span>
+                Travel Essentials
+            </h2>
+            
+            <div class="space-y-6">
+                <!-- What's in my bag -->
+                <div>
+                    <p class="text-[11px] font-bold text-slate-400 uppercase mb-3 tracking-widest">What's in my bag</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="text-[12px] text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="block font-bold text-slate-800 mb-1">Tech & Admin</span>
+                            • 뮤지엄 패스(QR 저장)<br>• 보조배터리 & 멀티탭<br>• 동전 지갑(벨기에용)
+                        </div>
+                        <div class="text-[12px] text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="block font-bold text-slate-800 mb-1">Personal Care</span>
+                            • 선글라스 & 선크림<br>• 휴대용 티슈/물티슈<br>• 상비약 (감기약 필수)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather & Tips -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Weather Guide</p>
+                        <p class="text-[13px] leading-relaxed text-slate-600 font-light">
+                            5월 말은 평균 12~18℃로 쾌적하지만, <b>'가랑비'와 '강한 바람'</b>이 잦습니다. 튼튼한 우산보다는 <b>방수 외투</b>가 훨씬 유용하며, 해가 지면 급격히 쌀쌀해집니다.
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase mb-2 tracking-widest">May Information</p>
+                        <p class="text-[13px] leading-relaxed text-slate-600 font-light">
+                            네덜란드의 5월은 <b>백야 현상</b>으로 밤 9시가 넘어도 밝습니다. 늦은 시간까지 안전하게 운하 산책을 즐기기 좋지만, 박물관 폐관 시간은 빠르니 주의하세요.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Master Toggle -->
+        <div class="flex justify-between items-center mb-6 px-1">
+            <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Daily Schedule</h3>
+            <button id="masterToggle" class="text-[10px] font-bold text-slate-400 hover:text-slate-700 transition-colors">
+                <span id="masterText">EXPAND ALL</span>
+            </button>
+        </div>
+
+        <!-- Itinerary List -->
+        <div class="space-y-4">
+            
+            <!-- Day 1 -->
+            <div class="glass-card overflow-hidden">
+                <button class="w-full flex items-center justify-between p-6 text-left" onclick="toggleOne(1)">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center min-w-[30px]">
+                            <p class="text-xl serif-font text-slate-800">22</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Day 1</p>
+                        </div>
+                        <div>
+                            <h4 class="text-[14px] font-medium text-slate-700">국내 여정의 시작</h4>
+                            <p class="text-[10px] text-slate-400 font-light uppercase tracking-widest">Jeju - Seoul</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-300 transition-transform duration-300" id="icon-1"></i>
+                </button>
+                <div class="accordion-content px-12" id="content-1">
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">20:40</p>
+                        <p class="text-[13px] text-slate-600 font-light">제주 출발 → 서울 김포 도착</p>
+                    </div>
+                    <div class="timeline-line">
+                        <p class="time-label">22:30</p>
+                        <p class="text-[13px] text-slate-600 font-light">인천공항 인근 호텔 투숙</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="glass-card overflow-hidden">
+                <button class="w-full flex items-center justify-between p-6 text-left" onclick="toggleOne(2)">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center min-w-[30px]">
+                            <p class="text-xl serif-font text-slate-800">23</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Day 2</p>
+                        </div>
+                        <div>
+                            <h4 class="text-[14px] font-medium text-slate-700">유럽으로의 비행</h4>
+                            <p class="text-[10px] text-slate-400 font-light uppercase tracking-widest">Incheon - Amsterdam</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-300 transition-transform duration-300" id="icon-2"></i>
+                </button>
+                <div class="accordion-content px-12" id="content-2">
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">11:55</p>
+                        <p class="text-[13px] text-slate-600 font-light">대한항공 KE925 이륙 (인천공항 T2)</p>
+                    </div>
+                    <div class="timeline-line">
+                        <p class="time-label">18:30</p>
+                        <p class="text-[13px] text-slate-700 font-medium">스키폴 공항 도착</p>
+                        <p class="text-[12px] text-slate-400 mt-1 font-light italic">입국 심사 및 중앙역 숙소 이동</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="glass-card overflow-hidden border-l-2" style="border-left-color: var(--accent-sage);">
+                <button class="w-full flex items-center justify-between p-6 text-left" onclick="toggleOne(3)">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center min-w-[30px]">
+                            <p class="text-xl serif-font text-slate-800">24</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Day 3</p>
+                        </div>
+                        <div>
+                            <h4 class="text-[14px] font-medium text-slate-700">풍차와 오렌지빛 운하</h4>
+                            <p class="text-[10px] text-slate-400 font-light uppercase tracking-widest">Windmills & Canal</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-300 transition-transform duration-300" id="icon-3"></i>
+                </button>
+                <div class="accordion-content px-12" id="content-3">
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">Morning</p>
+                        <p class="text-[13px] text-slate-600 font-light">잔세스칸스 풍차 마을 투어</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <span class="info-tag tag-eat">EAT</span>
+                        <p class="text-[13px] text-slate-700"><b>De Catharina Hoeve</b><br>풍차 마을 내 치즈 농장에서 시식 및 팬케이크</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <span class="info-tag tag-shop">SHOP</span>
+                        <p class="text-[13px] text-slate-700"><b>잔담 Arket / HAY</b><br>레고 호텔 근처 북유럽 감성 리빙 편집샵 쇼핑</p>
+                    </div>
+                    <div class="timeline-line">
+                        <p class="time-label">Evening</p>
+                        <p class="text-[13px] text-slate-700 font-medium tracking-tight">선셋 운하 크루즈 투어</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="glass-card overflow-hidden border-l-2" style="border-left-color: var(--accent-sage);">
+                <button class="w-full flex items-center justify-between p-6 text-left" onclick="toggleOne(4)">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center min-w-[30px]">
+                            <p class="text-xl serif-font text-slate-800">25</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Day 4</p>
+                        </div>
+                        <div>
+                            <h4 class="text-[14px] font-medium text-slate-700">위대한 거장의 숨결</h4>
+                            <p class="text-[10px] text-slate-400 font-light uppercase tracking-widest">The Art Masterpieces</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-300 transition-transform duration-300" id="icon-4"></i>
+                </button>
+                <div class="accordion-content px-12" id="content-4">
+                    <div class="timeline-line pb-4 mt-2">
+                        <p class="time-label">09:00</p>
+                        <p class="text-[13px] text-slate-600 font-light">반 고흐 미술관 (예약 필수)</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <span class="info-tag tag-eat">EAT</span>
+                        <p class="text-[13px] text-slate-700"><b>Vleminckx de Sausmeester</b><br>암스테르담 1위 감자튀김 (소스 필수 추가)</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">14:00</p>
+                        <p class="text-[13px] text-slate-600 font-light">네덜란드 국립미술관 (렘브란트 '야경')</p>
+                    </div>
+                    <div class="timeline-line">
+                        <span class="info-tag tag-shop">SHOP</span>
+                        <p class="text-[13px] text-slate-700"><b>9 Streets (De Negen Straatjes)</b><br>아기자기한 빈티지 샵과 로컬 디자이너 브랜드 거리</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="glass-card overflow-hidden">
+                <button class="w-full flex items-center justify-between p-6 text-left" onclick="toggleOne(5)">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center min-w-[30px]">
+                            <p class="text-xl serif-font text-slate-800">26</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Day 5</p>
+                        </div>
+                        <div>
+                            <h4 class="text-[14px] font-medium text-slate-700">역사와 진주의 소녀</h4>
+                            <p class="text-[10px] text-slate-400 font-light uppercase tracking-widest">History & The Girl</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-300 transition-transform duration-300" id="icon-5"></i>
+                </button>
+                <div class="accordion-content px-12" id="content-5">
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">Morning</p>
+                        <p class="text-[13px] text-slate-600 font-light">안네 프랑크의 집 & 요르단 지구</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <span class="info-tag tag-eat">EAT</span>
+                        <p class="text-[13px] text-slate-700"><b>Winkel 43</b><br>네덜란드에서 가장 유명한 애플파이 맛집</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">Afternoon</p>
+                        <p class="text-[13px] text-slate-600 font-light">헤이그 이동 및 마우리츠하위스 관람</p>
+                    </div>
+                    <div class="timeline-line">
+                        <span class="info-tag tag-shop">SHOP</span>
+                        <p class="text-[13px] text-slate-700"><b>The Passage</b><br>네덜란드에서 가장 오래된 화려한 쇼핑 아케이드</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="glass-card overflow-hidden">
+                <button class="w-full flex items-center justify-between p-6 text-left" onclick="toggleOne(6)">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center min-w-[30px]">
+                            <p class="text-xl serif-font text-slate-800">27</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Day 6</p>
+                        </div>
+                        <div>
+                            <h4 class="text-[14px] font-medium text-slate-700">건축과 미식의 도시</h4>
+                            <p class="text-[10px] text-slate-400 font-light uppercase tracking-widest">Rotterdam Vibe</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-300 transition-transform duration-300" id="icon-6"></i>
+                </button>
+                <div class="accordion-content px-12" id="content-6">
+                    <div class="timeline-line pb-4">
+                        <span class="info-tag tag-eat">EAT</span>
+                        <p class="text-[13px] text-slate-700"><b>Markthal (마켓홀)</b><br>해산물 튀김(Kibbeling)과 스트롭와플 추천</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">Afternoon</p>
+                        <p class="text-[13px] text-slate-600 font-light">큐브 하우스 투어 및 강변 산책</p>
+                    </div>
+                    <div class="timeline-line">
+                        <span class="info-tag tag-shop">SHOP</span>
+                        <p class="text-[13px] text-slate-700"><b>Dille & Kamille</b><br>자연 친화적 감성의 주방/라이프스타일 샵</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 7 -->
+            <div class="glass-card overflow-hidden border-l-2 border-slate-200">
+                <button class="w-full flex items-center justify-between p-6 text-left" onclick="toggleOne(7)">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center min-w-[30px]">
+                            <p class="text-xl serif-font text-slate-800">28</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Day 7</p>
+                        </div>
+                        <div>
+                            <h4 class="text-[14px] font-medium text-slate-700">벨기에 초콜릿 투어</h4>
+                            <p class="text-[10px] text-slate-400 font-light uppercase tracking-widest">Brussels One-Day</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-300 transition-transform duration-300" id="icon-7"></i>
+                </button>
+                <div class="accordion-content px-12" id="content-7">
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">Noon</p>
+                        <p class="text-[13px] text-slate-600 font-light">브뤼셀 그랑 플라스 & 오줌싸개 동상</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <span class="info-tag tag-eat">EAT</span>
+                        <p class="text-[13px] text-slate-700"><b>Maison Dandoy</b><br>벨기에 정통 와플 (브뤼셀/리에쥬 스타일)</p>
+                    </div>
+                    <div class="timeline-line">
+                        <span class="info-tag tag-shop">SHOP</span>
+                        <p class="text-[13px] text-slate-700"><b>Pierre Marcolini</b><br>벨기에 프리미엄 초콜릿 쇼핑</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 8 & 9 -->
+            <div class="glass-card overflow-hidden bg-slate-50">
+                <button class="w-full flex items-center justify-between p-6 text-left" onclick="toggleOne(8)">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center min-w-[30px]">
+                            <p class="text-xl serif-font text-slate-800">29</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Day 8-9</p>
+                        </div>
+                        <div>
+                            <h4 class="text-[14px] font-medium text-slate-700">여정의 마무리</h4>
+                            <p class="text-[10px] text-slate-400 font-light uppercase tracking-widest">Amsterdam - Home</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-300 transition-transform duration-300" id="icon-8"></i>
+                </button>
+                <div class="accordion-content px-12" id="content-8">
+                    <div class="timeline-line pb-4">
+                        <span class="info-tag tag-shop">LAST SHOP</span>
+                        <p class="text-[13px] text-slate-700"><b>Schiphol Airport</b><br>미처 못 산 스트롭와플, 미피(Miffy) 굿즈 쇼핑</p>
+                    </div>
+                    <div class="timeline-line pb-4">
+                        <p class="time-label">21:20</p>
+                        <p class="text-[13px] text-slate-600 font-light">암스테르담 스키폴 이륙</p>
+                    </div>
+                    <div class="timeline-line">
+                        <p class="time-label">D+1 20:30</p>
+                        <p class="text-[13px] text-slate-700 font-medium">제주 도착 및 여정 종료</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="text-center mt-16 text-[9px] text-slate-300 uppercase tracking-[0.4em]">Serene Journey in May</p>
+    </div>
+
+    <script>
+        let isAllOpen = false;
+
+        function toggleOne(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            content.classList.toggle('active');
+            
+            if (content.classList.contains('active')) {
+                icon.classList.add('rotate-180');
+            } else {
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        const masterBtn = document.getElementById('masterToggle');
+        const masterText = document.getElementById('masterText');
+
+        masterBtn.addEventListener('click', () => {
+            isAllOpen = !isAllOpen;
+            const contents = document.querySelectorAll('.accordion-content');
+            const icons = document.querySelectorAll('.fa-chevron-down');
+
+            contents.forEach(content => {
+                if (isAllOpen) content.classList.add('active');
+                else content.classList.remove('active');
+            });
+
+            icons.forEach(icon => {
+                if (isAllOpen) icon.classList.add('rotate-180');
+                else icon.classList.remove('rotate-180');
+            });
+
+            masterText.innerText = isAllOpen ? "COLLAPSE ALL" : "EXPAND ALL";
+        });
+    </script>
+</body>
+</html>
